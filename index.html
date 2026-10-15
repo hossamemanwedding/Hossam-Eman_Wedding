@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hossam & Eman — Wedding Celebration</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            champagne: '#FAF7F2',
+            champagneDark: '#F2ECE4',
+            linen: '#F9F5EE',
+            gold: {
+              300: '#E6D3B3',
+              400: '#D5BA8D',
+              500: '#C5A880',
+              600: '#B38F5F',
+              700: '#8C6C42'
+            },
+            espresso: '#25211E',
+            charcoal: '#3B3632',
+            roseMist: '#EADCD7'
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            arabic: ['"Amiri"', '"Cairo"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF7F2;
+      color: #25211E;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-serif-luxury {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .font-arabic-calligraphy {
+      font-family: 'Amiri', serif;
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #B38F5F 0%, #D5BA8D 50%, #8C6C42 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gold-border-gradient {
+      border-image: linear-gradient(to right, #FAF7F2, #C5A880, #FAF7F2) 1;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(197, 168, 128, 0.28);
+    }
+
+    #petals-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    @keyframes floatGentle {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1.5deg); }
+    }
+    .animate-float {
+      animation: floatGentle 6s ease-in-out infinite;
+    }
+
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF7F2;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D5BA8D;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B38F5F;
+    }
+  </style>
+</head>
+
+<body class="relative selection:bg-gold-300 selection:text-espresso">
+
+  <canvas id="petals-canvas"></canvas>
+
+  <header class="sticky top-0 z-40 w-full transition-all duration-300 backdrop-blur-md bg-champagne/90 border-b border-gold-300/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+      
+      <a href="#hero" class="flex items-center gap-2 group">
+        <div class="w-10 h-10 rounded-full border border-gold-500/60 flex items-center justify-center bg-white/70 shadow-sm group-hover:border-gold-600 transition-colors">
+          <span class="font-serif-luxury text-xl font-bold tracking-widest text-gold-700">H&amp;E</span>
+        </div>
+        <div class="hidden sm:block text-left">
+          <p class="font-serif-luxury text-sm tracking-widest uppercase font-semibold text-espresso">Hossam &amp; Eman</p>
+          <p class="text-[10px] tracking-widest text-gold-600 uppercase">December 4, 2026</p>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-7 text-xs uppercase tracking-widest font-medium text-charcoal">
+        <a href="#countdown" class="hover:text-gold-600 transition-colors">Countdown</a>
+        <a href="#venue" class="hover:text-gold-600 transition-colors">Location</a>
+        <a href="#wishes" class="hover:text-gold-600 transition-colors">Warm Wishes</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button id="musicBtn" aria-label="Play soft wedding chime melody" class="relative p-2.5 rounded-full border border-gold-400/50 bg-white/80 hover:bg-gold-50 text-gold-700 hover:text-gold-600 transition-all shadow-sm">
+          <svg id="musicIconMuted" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+          <svg id="musicIconPlaying" class="w-4 h-4 hidden animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+        </button>
+
+        <button id="confettiBtn" aria-label="Throw celebratory confetti" class="px-3.5 py-2 rounded-full border border-gold-500 bg-gold-500 hover:bg-gold-600 text-white text-xs tracking-wider uppercase font-medium shadow-sm transition-all flex items-center gap-1.5 active:scale-95">
+          <span>Celebrate</span>
+          <span class="text-sm">✨</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="relative pt-12 pb-20 sm:pt-20 sm:pb-32 px-4 flex flex-col items-center justify-center text-center overflow-hidden">
+      <div class="absolute inset-0 -z-10 pointer-events-none opacity-40">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-gold-300/30 to-roseMist/40 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="mb-5 max-w-xl mx-auto">
+        <p class="font-arabic-calligraphy text-lg sm:text-2xl text-gold-700 tracking-wide mb-2 leading-relaxed">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </p>
+        <p class="font-arabic-calligraphy text-base sm:text-xl text-charcoal/90 leading-relaxed font-semibold">
+          « وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً »
+        </p>
+        <div class="w-24 h-px bg-gold-400 mx-auto mt-4"></div>
+      </div>
+
+      <div class="my-6 relative inline-block animate-float">
+        <svg class="w-28 h-28 sm:w-36 sm:h-36 mx-auto text-gold-500" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+          <circle cx="50" cy="50" r="46" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.6"/>
+          <circle cx="50" cy="50" r="41" stroke-width="1.2"/>
+          <path d="M50 8 C40 18, 30 30, 20 50 C15 62, 18 78, 34 88 C40 92, 46 93, 50 94" stroke-width="1" fill="none"/>
+          <path d="M50 8 C60 18, 70 30, 80 50 C85 62, 82 78, 66 88 C60 92, 54 93, 50 94" stroke-width="1" fill="none"/>
+          <circle cx="28" cy="30" r="1.5" fill="currentColor"/>
+          <circle cx="72" cy="30" r="1.5" fill="currentColor"/>
+          <circle cx="20" cy="50" r="1.5" fill="currentColor"/>
+          <circle cx="80" cy="50" r="1.5" fill="currentColor"/>
+          <circle cx="34" cy="80" r="1.5" fill="currentColor"/>
+          <circle cx="66" cy="80" r="1.5" fill="currentColor"/>
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="font-serif-luxury text-3xl sm:text-4xl text-gold-700 tracking-widest font-normal">H &amp; E</span>
+        </div>
+      </div>
+
+      <p class="font-sans text-xs sm:text-sm tracking-[0.25em] uppercase text-charcoal/80 mb-3">
+        Together with our families
+      </p>
+      <p class="font-arabic-calligraphy text-xl sm:text-2xl text-gold-700 mb-4 font-bold">
+        يسعدنا ويشرفنا دعوتكم لحضور حفل زفافنا
+      </p>
+
+      <h1 class="font-serif-luxury text-5xl sm:text-7xl lg:text-8xl font-normal tracking-wide gold-gradient-text my-2">
+        Hossam <span class="font-light italic text-gold-500">&amp;</span> Eman
+      </h1>
+      <p class="font-arabic-calligraphy text-2xl sm:text-3xl text-charcoal/90 mt-1 mb-6">
+        حسام و إيمان
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 text-sm sm:text-base font-serif-luxury text-charcoal tracking-widest uppercase border-y border-gold-300/60 py-4 px-6 max-w-xl mx-auto">
+        <span class="font-medium">Friday, December 4, 2026</span>
+        <span class="hidden sm:inline text-gold-500">•</span>
+        <span class="font-medium">6:00 PM (Cairo Time)</span>
+        <span class="hidden sm:inline text-gold-500">•</span>
+        <span class="font-medium font-arabic-calligraphy normal-case text-lg">مسجد المشير الطنطاوي</span>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="#wishes" class="px-8 py-3.5 rounded-full bg-gold-600 hover:bg-gold-700 text-white font-medium text-xs tracking-widest uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+          Send Warm Wishes
+        </a>
+        <a href="https://maps.app.goo.gl/GzgA5nfFVLcRpE686?g_st=ac" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-full border border-gold-500/80 bg-white/80 hover:bg-white text-gold-700 font-medium text-xs tracking-widest uppercase shadow-sm transition-all flex items-center gap-2 hover:border-gold-600">
+          <svg class="w-4 h-4 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+          </svg>
+          Open in Google Maps
+        </a>
+      </div>
+    </section>
+
+    <section id="countdown" class="py-16 sm:py-20 px-4 bg-gradient-to-b from-champagne via-champagneDark/50 to-champagne relative">
+      <div class="max-w-4xl mx-auto text-center">
+        
+        <p class="font-serif-luxury text-sm tracking-[0.3em] uppercase text-gold-700 mb-2">Every Second Brings Us Closer</p>
+        <h2 class="font-serif-luxury text-3xl sm:text-4xl text-espresso mb-8">Counting Down To Forever</h2>
+
+        <div class="grid grid-cols-4 gap-2 sm:gap-6 max-w-2xl mx-auto">
+          
+          <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group">
+            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
+            <span id="daysVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-700 tracking-tight transition-transform duration-200">00</span>
+            <span class="text-[10px] sm:text-xs uppercase tracking-widest text-charcoal/70 font-semibold mt-1">Days</span>
+            <span class="font-arabic-calligraphy text-xs text-gold-600/80 hidden sm:block">يوم</span>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group">
+            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
+            <span id="hoursVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-700 tracking-tight transition-transform duration-200">00</span>
+            <span class="text-[10px] sm:text-xs uppercase tracking-widest text-charcoal/70 font-semibold mt-1">Hours</span>
+            <span class="font-arabic-calligraphy text-xs text-gold-600/80 hidden sm:block">ساعة</span>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group">
+            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
+            <span id="minsVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-700 tracking-tight transition-transform duration-200">00</span>
+            <span class="text-[10px] sm:text-xs uppercase tracking-widest text-charcoal/70 font-semibold mt-1">Minutes</span>
+            <span class="font-arabic-calligraphy text-xs text-gold-600/80 hidden sm:block">دقيقة</span>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group border-gold-400/50">
+            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400"></div>
+            <span id="secsVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-600 tracking-tight transition-transform duration-200">00</span>
+            <span class="text-[10px] sm:text-xs uppercase tracking-widest text-charcoal/70 font-semibold mt-1">Seconds</span>
+            <span class="font-arabic-calligraphy text-xs text-gold-600/80 hidden sm:block">ثانية</span>
+          </div>
+
+        </div>
+
+        <p id="countdownStatus" class="mt-8 text-xs tracking-widest uppercase text-gold-700/80">
+          Cairo, Egypt (GMT+2) • Target: December 4, 2026 at 6:00 PM
+        </p>
+      </div>
+    </section>
+
+    <section id="venue" class="py-16 sm:py-24 px-4 bg-gradient-to-b from-champagneDark/40 via-champagne to-champagne relative">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <p class="font-serif-luxury text-sm tracking-[0.3em] uppercase text-gold-700 mb-1">Join Our Celebration</p>
+          <h2 class="font-serif-luxury text-3xl sm:text-5xl text-espresso">The Venue &amp; Location</h2>
+          <p class="font-arabic-calligraphy text-lg text-charcoal/80 mt-2">مكان الحفل وخريطة الوصول</p>
+          <div class="w-16 h-px bg-gold-400 mx-auto mt-4"></div>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-lg border border-gold-300/50">
+          <div class="flex flex-col lg:flex-row items-center gap-8">
+            
+            <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-left">
+              <span class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold tracking-widest uppercase bg-gold-100 text-gold-800">
+                Wedding Hall
+              </span>
+              <h3 class="font-arabic-calligraphy text-4xl text-espresso font-bold">مسجد المشير الطنطاوي</h3>
+              <p class="font-arabic-calligraphy text-xl text-gold-700 font-semibold">مدينة نصر - القاهرة</p>
+              
+              <div class="space-y-2 text-xs sm:text-sm text-charcoal/80 pt-2">
+                <p class="flex items-center justify-center lg:justify-start gap-2">
+                  <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  <span>El-Moshir Tantawy Axis, Nasr City, Cairo, Egypt</span>
+                </p>
+                <p class="flex items-center justify-center lg:justify-start gap-2">
+                  <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span>Friday, December 4, 2026 at 6:00 PM</span>
+                </p>
+              </div>
+
+              <div class="pt-4 flex items-center justify-center lg:justify-start">
+                <a href="https://maps.app.goo.gl/GzgA5nfFVLcRpE686?g_st=ac" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 rounded-full bg-gold-600 hover:bg-gold-700 text-white font-medium text-xs tracking-wider uppercase transition shadow-sm flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                  Open in Google Maps
+                </a>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-1/2">
+              <div class="relative w-full h-64 sm:h-72 rounded-2xl border border-gold-300 shadow-md bg-stone-100 flex flex-col items-center justify-center p-6 text-center group">
+                <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#C5A880_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                <div class="relative z-10 flex flex-col items-center">
+                  <div class="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center text-gold-600 mb-3 border border-gold-200 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                  </div>
+                  <h4 class="font-arabic-calligraphy text-3xl text-espresso font-bold">مسجد المشير الطنطاوي</h4>
+                  <p class="font-arabic-calligraphy text-gold-700 text-sm">القاهرة</p>
+                  <p class="text-[11px] text-charcoal/70 mt-2 max-w-xs">Tap below to directly navigate using GPS on your phone.</p>
+                  <a href="https://maps.app.goo.gl/GzgA5nfFVLcRpE686?g_st=ac" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-gold-700 hover:text-gold-800 underline underline-offset-4">
+                    <span>Start Navigation Now</span>
+                    <span>&rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="wishes" class="py-16 sm:py-24 px-4 max-w-5xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="font-serif-luxury text-sm tracking-[0.3em] uppercase text-gold-700 mb-1">Celebrate With Us</p>
+        <h2 class="font-serif-luxury text-3xl sm:text-5xl text-espresso">Warm Wishes</h2>
+        <p class="font-arabic-calligraphy text-lg text-charcoal/80 mt-2">تأكيد الحضور ودفتر التهاني</p>
+        <div class="w-16 h-px bg-gold-400 mx-auto mt-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-10 shadow-md border border-gold-300/40">
+          <h3 class="font-serif-luxury text-2xl text-espresso font-semibold mb-2">Will You Join Our Celebration?</h3>
+          <p class="text-xs text-charcoal/70 mb-6">Kindly respond by November 25, 2026. We look forward to celebrating together!</p>
+
+          <form id="wishForm" class="space-y-5">
+            <div>
+              <label for="guestName" class="block text-xs uppercase tracking-wider font-semibold text-charcoal mb-1.5">
+                Your Full Name / الاسم الكريم *
+              </label>
+              <input type="text" id="guestName" required placeholder="e.g. Karim El-Sayed" class="w-full px-4 py-3 rounded-xl border border-gold-300/80 bg-white/90 text-espresso text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 transition">
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-wider font-semibold text-charcoal mb-2">
+                Will you be attending? / الحضور *
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="flex items-center gap-3 p-3.5 rounded-xl border border-gold-300/70 bg-white/60 hover:bg-white cursor-pointer transition">
+                  <input type="radio" name="attendance" value="Joyfully Accept" checked class="text-gold-600 focus:ring-gold-400">
+                  <span class="text-xs font-medium text-espresso">Joyfully Accept (يشرفني الحضور)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3.5 rounded-xl border border-gold-300/70 bg-white/60 hover:bg-white cursor-pointer transition">
+                  <input type="radio" name="attendance" value="Regretfully Decline" class="text-gold-600 focus:ring-gold-400">
+                  <span class="text-xs font-medium text-charcoal">Regretfully Decline (يعتذر عن الحضور)</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="guestCountContainer">
+              <label for="guestCount" class="block text-xs uppercase tracking-wider font-semibold text-charcoal mb-1.5">
+                Number of Guests Attending / عدد الأفراد
+              </label>
+              <select id="guestCount" class="w-full px-4 py-3 rounded-xl border border-gold-300/80 bg-white/90 text-espresso text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 transition">
+                <option value="1 Person">1 Person (فرد واحد)</option>
+                <option value="2 Persons">2 Persons (فردين)</option>
+                <option value="Family">Family (عائلة)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="guestMessage" class="block text-xs uppercase tracking-wider font-semibold text-charcoal mb-1.5">
+                Message &amp; Blessings to Hossam &amp; Eman / كلمة تهنئة للعروسين
+              </label>
+              <textarea id="guestMessage" rows="3" placeholder="Write your heartfelt wishes here..." class="w-full px-4 py-3 rounded-xl border border-gold-300/80 bg-white/90 text-espresso text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 transition"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 rounded-xl bg-gold-600 hover:bg-gold-700 text-white font-medium text-xs uppercase tracking-widest transition shadow-md hover:shadow-lg transform active:scale-98">
+              Send Warm Wishes
+            </button>
+          </form>
+
+          <div id="wishAlert" class="hidden mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs sm:text-sm text-center">
+            <span class="font-bold">Thank you so much!</span> Your heartfelt wishes have been recorded with joy.
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col">
+          <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-md border border-gold-300/40 flex-1 flex flex-col">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-gold-200">
+              <h3 class="font-serif-luxury text-xl sm:text-2xl text-espresso font-semibold flex items-center gap-2">
+                <span>Guest Wishes</span>
+                <span class="text-sm font-sans font-normal text-gold-600" id="wishesCount">(0)</span>
+              </h3>
+              <span class="text-[11px] uppercase tracking-wider font-semibold text-gold-600 bg-gold-50 px-2.5 py-1 rounded-full">Live</span>
+            </div>
+
+            <div id="wishesList" class="space-y-3.5 max-h-[460px] overflow-y-auto pr-1">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="pt-16 pb-12 px-4 border-t border-gold-300/40 bg-champagne text-center">
+    <div class="max-w-xl mx-auto space-y-4">
+      <div class="w-10 h-10 rounded-full border border-gold-500/60 mx-auto flex items-center justify-center bg-white shadow-sm">
+        <span class="font-serif-luxury text-lg font-bold text-gold-700">H&amp;E</span>
+      </div>
+
+      <h3 class="font-serif-luxury text-3xl gold-gradient-text font-normal">Hossam &amp; Eman</h3>
+      
+      <p class="font-arabic-calligraphy text-base text-gold-700">
+        نسأل الله أن يبارك لنا ويبارك علينا ويجمع بيننا في خير
+      </p>
+
+      <p class="text-xs text-charcoal/60 uppercase tracking-widest pt-4">
+        Friday, December 4, 2026 • Cairo, Egypt
+      </p>
+
+      <div class="w-12 h-px bg-gold-400 mx-auto my-3"></div>
+
+      <p class="text-[11px] text-charcoal/50">
+        Crafted with love for an unforgettable wedding celebration.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const weddingDate = new Date('2026-12-04T18:00:00+02:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = weddingDate - now;
+
+      const daysEl = document.getElementById('daysVal');
+      const hoursEl = document.getElementById('hoursVal');
+      const minsEl = document.getElementById('minsVal');
+      const secsEl = document.getElementById('secsVal');
+      const statusEl = document.getElementById('countdownStatus');
+
+      if (difference <= 0) {
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minsEl.textContent = '00';
+        secsEl.textContent = '00';
+        statusEl.textContent = 'The Wedding Celebration Has Begun! Mabrouk Hossam & Eman! 🎉';
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      daysEl.textContent = String(days).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      minsEl.textContent = String(minutes).padStart(2, '0');
+      secsEl.textContent = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    const canvas = document.getElementById('petals-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const particleCount = window.innerWidth < 640 ? 24 : 45;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset(true);
+      }
+      reset(init = false) {
+        this.x = Math.random() * width;
+        this.y = init ? Math.random() * height : -20;
+        this.size = Math.random() * 7 + 4;
+        this.speedY = Math.random() * 0.8 + 0.4;
+        this.speedX = Math.random() * 0.6 - 0.3;
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = (Math.random() - 0.5) * 1.5;
+        this.opacity = Math.random() * 0.45 + 0.2;
+        this.isGold = Math.random() > 0.6;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += Math.sin(this.y * 0.01) * 0.4 + this.speedX;
+        this.rotation += this.rotSpeed;
+        if (this.y > height + 25) {
+          this.reset(false);
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.globalAlpha = this.opacity;
+
+        if (this.isGold) {
+          ctx.fillStyle = '#C5A880';
+          ctx.beginPath();
+          ctx.moveTo(0, -this.size * 0.5);
+          ctx.lineTo(this.size * 0.35, 0);
+          ctx.lineTo(0, this.size * 0.5);
+          ctx.lineTo(-this.size * 0.35, 0);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillStyle = '#EAC4BD';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, this.size * 0.5, this.size * 0.8, Math.PI / 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let p of particles) {
+        p.update();
+        p.draw();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    function triggerCelebration() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 70,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#C5A880', '#D5BA8D', '#EAC4BD', '#F7E7CE', '#B38F5F']
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 50,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#C5A880', '#FAF7F2', '#D5BA8D']
+          });
+          confetti({
+            particleCount: 50,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#C5A880', '#EAC4BD', '#8C6C42']
+          });
+        }, 250);
+      }
+    }
+
+    document.getElementById('confettiBtn').addEventListener('click', triggerCelebration);
+
+    let audioCtx = null;
+    let isPlaying = false;
+    let melodyInterval = null;
+
+    const notes = [
+      261.63,
+      293.66,
+      329.63,
+      392.00,
+      440.00,
+      523.25,
+      587.33
+    ];
+
+    function playSoftChime(frequency) {
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.4);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 2.5);
+      } catch (e) {
+        console.warn('Audio playback error', e);
+      }
+    }
+
+    function toggleAudio() {
+      const iconMuted = document.getElementById('musicIconMuted');
+      const iconPlaying = document.getElementById('musicIconPlaying');
+
+      if (!isPlaying) {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        isPlaying = true;
+        iconMuted.classList.add('hidden');
+        iconPlaying.classList.remove('hidden');
+
+        let step = 0;
+        const melodySeq = [0, 2, 3, 4, 2, 4, 5, 3, 4, 1, 0, 2];
+        
+        playSoftChime(notes[melodySeq[0]]);
+
+        melodyInterval = setInterval(() => {
+          step = (step + 1) % melodySeq.length;
+          playSoftChime(notes[melodySeq[step]]);
+        }, 850);
+
+      } else {
+        isPlaying = false;
+        clearInterval(melodyInterval);
+        iconMuted.classList.remove('hidden');
+        iconPlaying.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('musicBtn').addEventListener('click', toggleAudio);
+
+    const initialWishes = [];
+
+    function getSavedWishes() {
+      const stored = localStorage.getItem('wedding_wishes_hossam_eman');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {
+          return initialWishes;
+        }
+      }
+      return initialWishes;
+    }
+
+    function renderWishes() {
+      const wishes = getSavedWishes();
+      const listEl = document.getElementById('wishesList');
+      const countEl = document.getElementById('wishesCount');
+      
+      countEl.textContent = `(${wishes.length})`;
+      listEl.innerHTML = '';
+
+      if (wishes.length === 0) {
+        listEl.innerHTML = '<p class="text-xs text-charcoal/50 text-center py-6">No wishes yet. Be the first to leave a blessing!</p>';
+        return;
+      }
+
+      wishes.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'p-3.5 rounded-2xl bg-white/70 border border-gold-200/70 shadow-xs transition hover:bg-white';
+        
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-serif-luxury font-bold text-sm text-espresso">${escapeHtml(item.name)}</span>
+            <span class="text-[10px] text-gold-700 bg-gold-50 px-2 py-0.5 rounded-full font-medium">${escapeHtml(item.status)}</span>
+          </div>
+          <p class="text-xs text-charcoal/80 leading-relaxed font-sans">${escapeHtml(item.message)}</p>
+          <span class="text-[9px] text-charcoal/40 block mt-1.5">${escapeHtml(item.date)}</span>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    document.querySelectorAll('input[name="attendance"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const guestContainer = document.getElementById('guestCountContainer');
+        if (e.target.value === 'Regretfully Decline') {
+          guestContainer.classList.add('opacity-40', 'pointer-events-none');
+        } else {
+          guestContainer.classList.remove('opacity-40', 'pointer-events-none');
+        }
+      });
+    });
+
+    document.getElementById('wishForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('guestName').value.trim();
+      const attendance = document.querySelector('input[name="attendance"]:checked').value;
+      const count = document.getElementById('guestCount').value;
+      const message = document.getElementById('guestMessage').value.trim() || "Heartfelt congratulations to the lovely couple!";
+      
+      if (!name) return;
+
+      const newEntry = {
+        name: name,
+        status: attendance === 'Joyfully Accept' ? `Attending (${count})` : 'Regretfully Declined',
+        message: message,
+        date: "Just now"
+      };
+
+      const wishes = getSavedWishes();
+      wishes.unshift(newEntry);
+      localStorage.setItem('wedding_wishes_hossam_eman', JSON.stringify(wishes));
+      
+      renderWishes();
+
+      const alertBox = document.getElementById('wishAlert');
+      alertBox.classList.remove('hidden');
+      
+      triggerCelebration();
+
+      document.getElementById('guestName').value = '';
+      document.getElementById('guestMessage').value = '';
+
+      setTimeout(() => {
+        alertBox.classList.add('hidden');
+      }, 7000);
+    });
+
+    renderWishes();
+  </script>
+</body>
+</html>
