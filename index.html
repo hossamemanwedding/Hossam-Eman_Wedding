@@ -938,28 +938,24 @@ body #hero + .section-divider{transform:translateY(calc((clamp(22px,4vw,48px) + 
             <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
             <span id="daysVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-300 tracking-tight transition-transform duration-200">00</span>
             <span class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-200/80 font-semibold mt-1">Days</span>
-            <span class="font-arabic-calligraphy text-sm text-gold-400 block">يوم</span>
           </div>
 
           <div class="bg-navy border border-gold-800/50 p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group">
             <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
             <span id="hoursVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-300 tracking-tight transition-transform duration-200">00</span>
             <span class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-200/80 font-semibold mt-1">Hours</span>
-            <span class="font-arabic-calligraphy text-sm text-gold-400 block">ساعة</span>
           </div>
 
           <div class="bg-navy border border-gold-800/50 p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group">
             <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
             <span id="minsVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-300 tracking-tight transition-transform duration-200">00</span>
             <span class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-200/80 font-semibold mt-1">Minutes</span>
-            <span class="font-arabic-calligraphy text-sm text-gold-400 block">دقيقة</span>
           </div>
 
           <div class="bg-navy border border-gold-800/50 p-4 sm:p-6 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group border-gold-800/50">
             <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
             <span id="secsVal" class="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-light text-gold-200 tracking-tight transition-transform duration-200">00</span>
             <span class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-200/80 font-semibold mt-1">Seconds</span>
-            <span class="font-arabic-calligraphy text-sm text-gold-400 block">ثانية</span>
           </div>
 
         </div>
@@ -1436,5 +1432,16 @@ html body footer h3.font-serif-luxury{margin-top:clamp(20px,4.5vw,34px)!importan
   });
 })();
 </script>
+<style id="leaf-clearance-css">
+/* corner leaves never touch a frame or card: every section keeps the leaf's visible height + 14px clear above and below its card */
+:root{--leaf-clear:calc(var(--leaf) * .789 + 8px)}
+.sec{padding-top:var(--leaf-clear)!important;padding-bottom:var(--leaf-clear)!important}
+/* opening section: the gold frame stops above the bottom-left leaf (content keeps the same room inside the frame) */
+.hero::before{bottom:var(--leaf-clear)!important}
+.hero{padding-bottom:calc(clamp(72px,10vw,130px) + var(--leaf-clear) - 24px)!important}
+@media(max-width:767px){.hero{padding-bottom:calc(clamp(72px,10vw,130px) + var(--leaf-clear) - 10px)!important}}
+/* first divider: now sits dead-centre between the frame and the next card, like the others (the old nudge is no longer needed) */
+body #hero + .section-divider{margin-top:0!important;transform:none!important}
+</style>
 </body>
 </html>
